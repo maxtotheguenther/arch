@@ -2,11 +2,10 @@ import { Settings, Add } from "@mui/icons-material";
 import {
   Avatar,
   Box,
-  Button,
   Card,
-  CardActions,
   CardContent,
   IconButton,
+  NoSsr,
   Paper,
   Popover,
   Stack,
@@ -15,14 +14,13 @@ import {
 } from "@mui/material";
 import { deepOrange } from "@mui/material/colors";
 import { NextPage } from "next";
-import { memo, useEffect, useRef, useState } from "react";
+import { memo, useRef, useState } from "react";
 import ReactFlow, {
   addEdge,
   Background,
   BackgroundVariant,
   Controls,
   Elements,
-  FlowElement,
   Handle,
   NodeProps,
   OnLoadParams,
@@ -147,31 +145,33 @@ const TestPage: NextPage = () => {
         </Paper>
       </Box>
       <Box sx={{ widht: "100%", height: "100%" }} ref={reactFlowWrapper}>
-        <ReactFlow
-          {...(addEvent && {
-            onClick: (e) => addEvent.onLocationSelect(e.pageX, e.pageY),
-          })}
-          nodeTypes={{ server: Server }}
-          snapToGrid={true}
-          snapGrid={[5, 5]}
-          elements={elements}
-          draggable={false}
-          onLoad={(flow) => {
-            flow.fitView();
-            setReactFlowInstance(flow);
-          }}
-          onConnect={(params) =>
-            setElements((els) =>
-              addEdge({ ...params, type: "smoothstep", animated: true }, els)
-            )
-          }
-          onEdgeUpdate={(oldEdge, newConnection) =>
-            setElements((els) => updateEdge(oldEdge, newConnection, els))
-          }
-        >
-          <Background variant={BackgroundVariant.Dots} />
-          <Controls />
-        </ReactFlow>
+        <NoSsr>
+          <ReactFlow
+            {...(addEvent && {
+              onClick: (e) => addEvent.onLocationSelect(e.pageX, e.pageY),
+            })}
+            nodeTypes={{ server: Server }}
+            snapToGrid={true}
+            snapGrid={[5, 5]}
+            elements={elements}
+            draggable={false}
+            onLoad={(flow) => {
+              flow.fitView();
+              setReactFlowInstance(flow);
+            }}
+            onConnect={(params) =>
+              setElements((els) =>
+                addEdge({ ...params, type: "smoothstep", animated: true }, els)
+              )
+            }
+            onEdgeUpdate={(oldEdge, newConnection) =>
+              setElements((els) => updateEdge(oldEdge, newConnection, els))
+            }
+          >
+            <Background variant={BackgroundVariant.Dots} />
+            <Controls />
+          </ReactFlow>
+        </NoSsr>
       </Box>
     </Box>
   );
