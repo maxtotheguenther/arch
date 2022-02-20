@@ -25,6 +25,7 @@ import ReactFlow, {
   FlowElement,
   Handle,
   NodeProps,
+  OnLoadParams,
   Position,
   updateEdge,
 } from "react-flow-renderer";
@@ -46,7 +47,9 @@ const TestPage: NextPage = () => {
   const [elements, setElements] = useState<Elements>(initalElements);
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [addEvent, initAddEvent] = useState<AddEvent | null>(null);
-  const reactFlowWrapper = useRef(null);
+  const [reactFlowInstance, setReactFlowInstance] =
+    useState<OnLoadParams | null>(null);
+  const reactFlowWrapper = useRef<HTMLDivElement>(null);
 
   return (
     <Box
@@ -106,12 +109,23 @@ const TestPage: NextPage = () => {
                         initAddEvent({
                           cursor: "crosshair",
                           onLocationSelect: (x, y) => {
-                            console.log(x, y);
+                            if (
+                              !reactFlowWrapper ||
+                              !reactFlowWrapper.current ||
+                              !reactFlowInstance
+                            )
+                              throw new Error("refs not initialized...");
+                            const reactFlowBounds =
+                              reactFlowWrapper.current.getBoundingClientRect();
+                            const position = reactFlowInstance.project({
+                              x: x - reactFlowBounds.left,
+                              y: y - reactFlowBounds.top,
+                            });
                             setElements((els) =>
                               els.concat({
                                 id: uuid(),
                                 type: "server",
-                                position: { x, y },
+                                position,
                               })
                             );
                             initAddEvent(null);
@@ -132,28 +146,33 @@ const TestPage: NextPage = () => {
           </Stack>
         </Paper>
       </Box>
-      <ReactFlow
-        {...(addEvent && {
-          onClick: (e) => addEvent.onLocationSelect(e.pageX, e.pageY),
-        })}
-        nodeTypes={{ server: Server }}
-        snapToGrid={true}
-        snapGrid={[5, 5]}
-        elements={elements}
-        draggable={false}
-        onLoad={(flow) => flow.fitView()}
-        onConnect={(params) =>
-          setElements((els) =>
-            addEdge({ ...params, type: "smoothstep", animated: true }, els)
-          )
-        }
-        onEdgeUpdate={(oldEdge, newConnection) =>
-          setElements((els) => updateEdge(oldEdge, newConnection, els))
-        }
-      >
-        <Background variant={BackgroundVariant.Dots} />
-        <Controls />
-      </ReactFlow>
+      <Box sx={{ widht: "100%", height: "100%" }} ref={reactFlowWrapper}>
+        <ReactFlow
+          {...(addEvent && {
+            onClick: (e) => addEvent.onLocationSelect(e.pageX, e.pageY),
+          })}
+          nodeTypes={{ server: Server }}
+          snapToGrid={true}
+          snapGrid={[5, 5]}
+          elements={elements}
+          draggable={false}
+          onLoad={(flow) => {
+            flow.fitView();
+            setReactFlowInstance(flow);
+          }}
+          onConnect={(params) =>
+            setElements((els) =>
+              addEdge({ ...params, type: "smoothstep", animated: true }, els)
+            )
+          }
+          onEdgeUpdate={(oldEdge, newConnection) =>
+            setElements((els) => updateEdge(oldEdge, newConnection, els))
+          }
+        >
+          <Background variant={BackgroundVariant.Dots} />
+          <Controls />
+        </ReactFlow>
+      </Box>
     </Box>
   );
 };
