@@ -1,7 +1,9 @@
 import { useMap } from "@/hooks/useMap";
 import { Add } from "@mui/icons-material";
-import { IconButton, Stack } from "@mui/material";
+import { Avatar, IconButton, Stack } from "@mui/material";
+import { deepOrange } from "@mui/material/colors";
 import { SidebarAction } from "./Sidebar";
+import { v4 as uuid } from "uuid";
 
 export const SidebarAddAction: React.FC = () => {
   const { wrapper, instance, addEvent } = useMap();
@@ -16,22 +18,7 @@ export const SidebarAddAction: React.FC = () => {
               setAnchorEl(null);
               addEvent({
                 cursor: "crosshair",
-                onDrop: (x, y) => {
-                  if (!wrapper.current) throw new Error("no wrapper detected.");
-                  const bounds = wrapper.current.getBoundingClientRect();
-                  const position = instance.project({
-                    x: x - bounds.left,
-                    y: y - bounds.top,
-                  });
-                  setElements((els) =>
-                    els.concat({
-                      id: uuid(),
-                      type: "server",
-                      position,
-                    })
-                  );
-                  initAddEvent(null);
-                },
+                element: { id: uuid(), type: "server" },
               });
             }}
           >

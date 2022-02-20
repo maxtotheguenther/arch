@@ -33,18 +33,39 @@ export const Map: React.FC<ReactFlowProps> = ({
   const [instance, setInstance] = useState<OnLoadParams | null>(null);
   const [elements, setElements] = useState<Elements>(initalElements);
 
-  function onAdd(event: AddElementEvent) {
-    setAddEvent(event);
+  function add(x: number, y: number) {
+    if (addEvent) {
+      if (!wrapper.current || !instance)
+        throw new Error("no wrapper or instance available");
+      const bounds = wrapper.current.getBoundingClientRect();
+      setElements((els) =>
+        els.concat({
+          ...addEvent.element,
+          position: instance.project({
+            x: x - bounds.left,
+            y: y - bounds.top,
+          }),
+        })
+      );
+      setAddEvent(null);
+    }
   }
 
   return (
-    <Box sx={{ widht: "100%", height: "100%" }} ref={wrapper}>
+    <Box
+      sx={{
+        widht: "100%",
+        height: "100%",
+        cursor: addEvent?.cursor || "default",
+      }}
+      ref={wrapper}
+    >
       <NoSsr>
-        <MapCtx.Provider value={{ addEvent: onAdd, wrapper, instance }}>
+        <MapCtx.Provider value={{ addEvent: setAddEvent, wrapper, instance }}>
           <ReactFlow
             {...props}
             {...(addEvent && {
-              onClick: (e) => addEvent.onDrop(e.pageX, e.pageY),
+              onClick: (e) => add(e.pageX, e.pageY),
             })}
             elements={elements}
             onLoad={(flow) => {
