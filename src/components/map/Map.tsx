@@ -70,6 +70,7 @@ export const Map: React.FC<ReactFlowProps> = ({
             elements={elements}
             onLoad={(flow) => {
               props.onLoad?.(flow);
+              flow.fitView();
               setInstance(flow);
             }}
             onConnect={(params) =>

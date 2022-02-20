@@ -6,7 +6,7 @@ import { SidebarAction } from "./Sidebar";
 import { v4 as uuid } from "uuid";
 
 export const SidebarAddAction: React.FC = () => {
-  const { wrapper, instance, addEvent } = useMap();
+  const { addEvent } = useMap();
   return (
     <SidebarAction
       id="add"
