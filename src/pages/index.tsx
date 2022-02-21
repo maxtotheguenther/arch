@@ -11,6 +11,7 @@ import { Map } from "@/components/map/Map";
 import { ServerNode } from "@/components/map/ServerNode";
 import { ClientNode } from "@/components/map/ClientNode";
 import { GatewayNode } from "@/components/map/GatewayNode";
+import { CustomizableEdge } from "@/components/map/Edge";
 
 const Page: NextPage = () => {
   return (
@@ -20,6 +21,9 @@ const Page: NextPage = () => {
         server: ServerNode,
         client: ClientNode,
         gateway: GatewayNode,
+      }}
+      edgeTypes={{
+        customizable: CustomizableEdge,
       }}
       snapToGrid={true}
       snapGrid={[5, 5]}

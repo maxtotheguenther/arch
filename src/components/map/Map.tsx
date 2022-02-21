@@ -75,7 +75,10 @@ export const Map: React.FC<ReactFlowProps> = ({
             }}
             onConnect={(params) =>
               setElements((els) =>
-                addEdge({ ...params, type: "smoothstep", animated: true }, els)
+                addEdge(
+                  { ...params, type: "customizable", animated: true },
+                  els
+                )
               )
             }
             onEdgeUpdate={(oldEdge, newConnection) =>
