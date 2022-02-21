@@ -1,25 +1,13 @@
 import { Settings } from "@mui/icons-material";
-import {
-  Avatar,
-  Box,
-  Card,
-  CardContent,
-  IconButton,
-  Popover,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { deepOrange } from "@mui/material/colors";
-import { Children, memo, ReactNodeArray, useState } from "react";
-import { Handle, NodeProps, Position } from "react-flow-renderer";
+import { Box, IconButton, Popover } from "@mui/material";
+import { useState } from "react";
 
 export const Node: React.FC = ({ children }) => {
   return <Box sx={{ position: "relative" }}>{children}</Box>;
 };
 
 export const NodeContent: React.FC = ({ children }) => {
-  return <>{children}</>;
+  return <Box p={1}>{children}</Box>;
 };
 
 export const NodeSettings: React.FC = ({ children }) => {
@@ -31,11 +19,11 @@ export const NodeSettings: React.FC = ({ children }) => {
         disableRipple
         sx={{
           position: "absolute",
-          top: -25,
-          right: -25,
+          top: -30,
+          right: -30,
         }}
       >
-        <Settings />
+        <Settings sx={{ height: 20, width: 20 }} />
       </IconButton>
       <Popover
         open={Boolean(anchorEl)}

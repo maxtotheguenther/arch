@@ -11,7 +11,7 @@ import { NodeProps, Position, Handle } from "react-flow-renderer";
 import { Node, NodeContent, NodeSettings } from "@/components/map/Node";
 import Image from "next/image";
 
-export const ServerNode = memo(({ isConnectable }: NodeProps) => {
+export const ClientNode = memo(({ isConnectable }: NodeProps) => {
   return (
     <Node>
       <NodeSettings>
@@ -26,7 +26,7 @@ export const ServerNode = memo(({ isConnectable }: NodeProps) => {
         </Card>
       </NodeSettings>
       <NodeContent>
-        <ServerIcon />
+        <ClientIcon />
         <Handle
           type="source"
           position={Position.Top}
@@ -56,7 +56,7 @@ export const ServerNode = memo(({ isConnectable }: NodeProps) => {
   );
 });
 
-export const ServerIcon: React.FC = () => {
+export const ClientIcon: React.FC = () => {
   return (
     <Box
       sx={{
@@ -69,7 +69,7 @@ export const ServerIcon: React.FC = () => {
         },
       }}
     >
-      <Image src="/server.png" layout="fill" />
+      <Image src="/laptop.png" layout="fill" />
     </Box>
   );
 };

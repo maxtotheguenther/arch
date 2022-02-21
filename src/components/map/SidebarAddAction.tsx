@@ -4,6 +4,9 @@ import { Avatar, IconButton, Stack } from "@mui/material";
 import { deepOrange } from "@mui/material/colors";
 import { SidebarAction } from "./Sidebar";
 import { v4 as uuid } from "uuid";
+import { ServerIcon } from "./ServerNode";
+import { ClientIcon } from "./ClientNode";
+import { GatewayIcon } from "./GatewayNode";
 
 export const SidebarAddAction: React.FC = () => {
   const { addEvent } = useMap();
@@ -22,9 +25,29 @@ export const SidebarAddAction: React.FC = () => {
               });
             }}
           >
-            <Avatar sx={{ width: 56, height: 56, bgcolor: deepOrange[500] }}>
-              Server
-            </Avatar>
+            <ServerIcon />
+          </IconButton>
+          <IconButton
+            onClick={() => {
+              setAnchorEl(null);
+              addEvent({
+                cursor: "crosshair",
+                element: { id: uuid(), type: "client" },
+              });
+            }}
+          >
+            <ClientIcon />
+          </IconButton>
+          <IconButton
+            onClick={() => {
+              setAnchorEl(null);
+              addEvent({
+                cursor: "crosshair",
+                element: { id: uuid(), type: "gateway" },
+              });
+            }}
+          >
+            <GatewayIcon />
           </IconButton>
         </Stack>
       )}
