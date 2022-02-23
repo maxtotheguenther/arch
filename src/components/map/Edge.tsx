@@ -35,8 +35,6 @@ export const CustomizableEdge = ({
     targetY,
   });
 
-  console.log("STYLE", { d: edgePath, style });
-
   return (
     <>
       <path
@@ -46,21 +44,9 @@ export const CustomizableEdge = ({
         d={edgePath}
         markerEnd={markerEnd}
       />
-      <rect
-        width="20"
-        height="20"
-        style={{
-          fill: "red",
-          stroke: "black",
-          strokeWidth: 5,
-          opacity: 0.5,
-        }}
-      >
-        <animateMotion dur="2s" repeatCount="indefinite" path={edgePath} />
-        <svg>
-          <div>asdasddddddddddddddddddddddddddddddddddddddddddddddddd</div>
-        </svg>
-      </rect>
+      <image xlinkHref="/json.png" width="30" height="30">
+        <animateMotion dur="3s" repeatCount="indefinite" path={edgePath} />
+      </image>
     </>
   );
 };
