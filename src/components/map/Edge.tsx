@@ -5,7 +5,6 @@ import {
   getEdgeCenter,
   getMarkerEnd,
 } from "react-flow-renderer";
-import styles from "./Edge.module.scss";
 
 export const CustomizableEdge = ({
   id,
@@ -47,27 +46,21 @@ export const CustomizableEdge = ({
         d={edgePath}
         markerEnd={markerEnd}
       />
-      <svg
-        x={edgeCenterX - 40 / 2}
-        y={edgeCenterY - 40 / 2}
-        width="40"
-        height="40"
-        className={styles.Edge}
+      <rect
+        width="20"
+        height="20"
         style={{
-          offsetPath: `path('${edgePath}')`,
+          fill: "red",
+          stroke: "black",
+          strokeWidth: 5,
+          opacity: 0.5,
         }}
       >
-        <rect
-          style={{
-            width: "100%",
-            height: "100%",
-            fill: "red",
-            stroke: "black",
-            strokeWidth: 5,
-            opacity: 0.5,
-          }}
-        />
-      </svg>
+        <animateMotion dur="2s" repeatCount="indefinite" path={edgePath} />
+        <svg>
+          <div>asdasddddddddddddddddddddddddddddddddddddddddddddddddd</div>
+        </svg>
+      </rect>
     </>
   );
 };
