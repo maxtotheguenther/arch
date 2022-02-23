@@ -1,6 +1,3 @@
-import { Settings } from "@mui/icons-material";
-import { IconButton, Box } from "@mui/material";
-import Image from "next/image";
 import React from "react";
 import {
   EdgeProps,
@@ -8,10 +5,9 @@ import {
   getEdgeCenter,
   getMarkerEnd,
 } from "react-flow-renderer";
+import styles from "./Edge.module.scss";
 
-const foreignObjectSize = 40;
-
-export function CustomizableEdge({
+export const CustomizableEdge = ({
   id,
   sourceX,
   sourceY,
@@ -23,7 +19,7 @@ export function CustomizableEdge({
   data,
   arrowHeadType,
   markerEndId,
-}: EdgeProps) {
+}: EdgeProps) => {
   const edgePath = getBezierPath({
     sourceX,
     sourceY,
@@ -40,6 +36,8 @@ export function CustomizableEdge({
     targetY,
   });
 
+  console.log("STYLE", { d: edgePath, style });
+
   return (
     <>
       <path
@@ -49,23 +47,27 @@ export function CustomizableEdge({
         d={edgePath}
         markerEnd={markerEnd}
       />
-      <foreignObject
-        width={foreignObjectSize}
-        height={foreignObjectSize}
-        x={edgeCenterX - foreignObjectSize / 2}
-        y={edgeCenterY - foreignObjectSize / 2}
+      <svg
+        x={edgeCenterX - 40 / 2}
+        y={edgeCenterY - 40 / 2}
+        width="40"
+        height="40"
+        className={styles.Edge}
+        style={{
+          offsetPath: `path('${edgePath}')`,
+        }}
       >
-        <Box
-          sx={{
-            cursor: "pointer",
-            position: "relative",
-            width: 20,
-            height: 20,
+        <rect
+          style={{
+            width: "100%",
+            height: "100%",
+            fill: "red",
+            stroke: "black",
+            strokeWidth: 5,
+            opacity: 0.5,
           }}
-        >
-          <Image src="/json.png" alt="json" layout="fill" />
-        </Box>
-      </foreignObject>
+        />
+      </svg>
     </>
   );
-}
+};

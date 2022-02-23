@@ -10,6 +10,7 @@ import { memo } from "react";
 import { NodeProps, Position, Handle } from "react-flow-renderer";
 import { Node, NodeContent, NodeSettings } from "@/components/map/Node";
 import Image from "next/image";
+import { preventOwnConnection } from "src/utils/map";
 
 export const GatewayNode = memo(({ isConnectable }: NodeProps) => {
   return (
@@ -32,24 +33,28 @@ export const GatewayNode = memo(({ isConnectable }: NodeProps) => {
           position={Position.Top}
           id="a"
           isConnectable={isConnectable}
+          isValidConnection={preventOwnConnection}
         />
         <Handle
           type="source"
           position={Position.Right}
           id="b"
           isConnectable={isConnectable}
+          isValidConnection={preventOwnConnection}
         />
         <Handle
           type="source"
           position={Position.Left}
           id="c"
           isConnectable={isConnectable}
+          isValidConnection={preventOwnConnection}
         />
         <Handle
           type="source"
           position={Position.Bottom}
           id="d"
           isConnectable={isConnectable}
+          isValidConnection={preventOwnConnection}
         />
       </NodeContent>
     </Node>

@@ -73,14 +73,14 @@ export const Map: React.FC<ReactFlowProps> = ({
               flow.fitView();
               setInstance(flow);
             }}
-            onConnect={(params) =>
+            onConnect={(params) => {
               setElements((els) =>
                 addEdge(
                   { ...params, type: "customizable", animated: true },
                   els
                 )
-              )
-            }
+              );
+            }}
             onEdgeUpdate={(oldEdge, newConnection) =>
               setElements((els) => updateEdge(oldEdge, newConnection, els))
             }
