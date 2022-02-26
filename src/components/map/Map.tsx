@@ -2,6 +2,7 @@ import { Box, NoSsr } from "@mui/material";
 import { createContext, RefObject, useRef, useState } from "react";
 import ReactFlow, {
   addEdge,
+  ArrowHeadType,
   Elements,
   FlowElement,
   OnLoadParams,
@@ -54,7 +55,7 @@ export const Map: React.FC<ReactFlowProps> = ({
   return (
     <Box
       sx={{
-        widht: "100%",
+        width: "100%",
         height: "100%",
         cursor: addEvent?.cursor || "default",
       }}
@@ -76,7 +77,11 @@ export const Map: React.FC<ReactFlowProps> = ({
             onConnect={(params) => {
               setElements((els) =>
                 addEdge(
-                  { ...params, type: "customizable", animated: true },
+                  {
+                    ...params,
+                    type: "customizable",
+                    arrowHeadType: ArrowHeadType.ArrowClosed,
+                  },
                   els
                 )
               );

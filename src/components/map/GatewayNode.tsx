@@ -7,15 +7,15 @@ import {
   Typography,
 } from "@mui/material";
 import { memo } from "react";
-import { NodeProps, Position, Handle } from "react-flow-renderer";
-import { Node, NodeContent, NodeSettings } from "@/components/map/Node";
+import { NodeProps } from "react-flow-renderer";
+import { Node } from "@/components/map/Node";
 import Image from "next/image";
-import { preventOwnConnection } from "src/utils/map";
 
-export const GatewayNode = memo(({ isConnectable }: NodeProps) => {
+export const GatewayNode = memo((props: NodeProps) => {
   return (
-    <Node>
-      <NodeSettings>
+    <Node
+      {...props}
+      settings={(base) => (
         <Card>
           <CardContent>
             <Typography variant="h5">Service</Typography>
@@ -25,38 +25,9 @@ export const GatewayNode = memo(({ isConnectable }: NodeProps) => {
             </Stack>
           </CardContent>
         </Card>
-      </NodeSettings>
-      <NodeContent>
-        <GatewayIcon />
-        <Handle
-          type="source"
-          position={Position.Top}
-          id="a"
-          isConnectable={isConnectable}
-          isValidConnection={preventOwnConnection}
-        />
-        <Handle
-          type="source"
-          position={Position.Right}
-          id="b"
-          isConnectable={isConnectable}
-          isValidConnection={preventOwnConnection}
-        />
-        <Handle
-          type="source"
-          position={Position.Left}
-          id="c"
-          isConnectable={isConnectable}
-          isValidConnection={preventOwnConnection}
-        />
-        <Handle
-          type="source"
-          position={Position.Bottom}
-          id="d"
-          isConnectable={isConnectable}
-          isValidConnection={preventOwnConnection}
-        />
-      </NodeContent>
+      )}
+    >
+      <GatewayIcon />
     </Node>
   );
 });

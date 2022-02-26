@@ -1,8 +1,7 @@
 import React from "react";
 import {
   EdgeProps,
-  getBezierPath,
-  getEdgeCenter,
+  getSmoothStepPath,
   getMarkerEnd,
 } from "react-flow-renderer";
 
@@ -19,7 +18,7 @@ export const CustomizableEdge = ({
   arrowHeadType,
   markerEndId,
 }: EdgeProps) => {
-  const edgePath = getBezierPath({
+  const edgePath = getSmoothStepPath({
     sourceX,
     sourceY,
     sourcePosition,
@@ -28,25 +27,20 @@ export const CustomizableEdge = ({
     targetPosition,
   });
   const markerEnd = getMarkerEnd(arrowHeadType, markerEndId);
-  const [edgeCenterX, edgeCenterY] = getEdgeCenter({
-    sourceX,
-    sourceY,
-    targetX,
-    targetY,
-  });
-
   return (
     <>
-      <path
-        id={id}
-        style={style}
-        className="react-flow__edge-path"
-        d={edgePath}
-        markerEnd={markerEnd}
-      />
-      <image xlinkHref="/json.png" width="30" height="30">
+      <g>
+        <path
+          id={id}
+          style={{ strokeWidth: "1px", cursor: "pointer", ...style }}
+          className="react-flow__edge-path"
+          d={edgePath}
+          markerEnd={markerEnd}
+        />
+      </g>
+      {/**<image xlinkHref="/json.png" width="20" height="20">
         <animateMotion dur="3s" repeatCount="indefinite" path={edgePath} />
-      </image>
+      </image> */}
     </>
   );
 };

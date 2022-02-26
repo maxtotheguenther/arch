@@ -1,34 +1,80 @@
-import { Settings } from "@mui/icons-material";
+import { Delete } from "@mui/icons-material";
 import { Box, IconButton, Popover } from "@mui/material";
-import { useState } from "react";
+import { useEffect } from "react";
+import { ReactNode, useState } from "react";
+import { Handle, NodeProps, Position } from "react-flow-renderer";
+import { preventOwnConnection } from "src/utils/map";
 
-export const Node: React.FC = ({ children }) => {
-  return <Box sx={{ position: "relative" }}>{children}</Box>;
-};
+export const Node: React.FC<
+  NodeProps & { settings: (props: { baseSettings: ReactNode }) => ReactNode }
+> = ({ children, settings, xPos, yPos, ...props }) => {
+  const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
+  const [pos, setPos] = useState<{ x?: number; y?: number } | null>(null);
+  const [isSelected, setIsSelected] = useState(false);
 
-export const NodeContent: React.FC = ({ children }) => {
-  return <Box p={1}>{children}</Box>;
-};
-
-export const NodeSettings: React.FC = ({ children }) => {
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  useEffect(() => {
+    if (props.isDragging) {
+      setAnchorEl(null);
+      setIsSelected(false);
+    }
+  }, [props.isDragging]);
   return (
     <>
-      <IconButton
-        onClick={(e) => setAnchorEl(e.currentTarget)}
-        disableRipple
-        sx={{
-          position: "absolute",
-          top: -30,
-          right: -30,
-        }}
-      >
-        <Settings sx={{ height: 20, width: 20 }} />
-      </IconButton>
+      <Box>
+        <Box
+          onMouseDown={() => {
+            setPos({ x: xPos, y: yPos });
+          }}
+          onMouseUp={(e) => {
+            if (xPos !== pos?.x || yPos !== pos?.y) return;
+            setAnchorEl(e.currentTarget);
+            setIsSelected(true);
+          }}
+          sx={{
+            borderRadius: "4px",
+            border: isSelected ? "2px solid lightblue" : "none",
+          }}
+        >
+          {children}
+        </Box>
+
+        <Handle
+          type="source"
+          position={Position.Top}
+          id="a"
+          isConnectable={props.isConnectable}
+          isValidConnection={preventOwnConnection}
+        />
+        <Handle
+          type="source"
+          position={Position.Right}
+          id="b"
+          isConnectable={props.isConnectable}
+          isValidConnection={preventOwnConnection}
+        />
+        <Handle
+          type="source"
+          position={Position.Left}
+          id="c"
+          isConnectable={props.isConnectable}
+          isValidConnection={preventOwnConnection}
+        />
+        <Handle
+          type="source"
+          position={Position.Bottom}
+          id="d"
+          isConnectable={props.isConnectable}
+          isValidConnection={preventOwnConnection}
+        />
+      </Box>
       <Popover
+        sx={{ top: -20 }}
         open={Boolean(anchorEl)}
         anchorEl={anchorEl}
-        onClose={() => setAnchorEl(null)}
+        onClose={() => {
+          setAnchorEl(null);
+          setIsSelected(false);
+        }}
         anchorOrigin={{
           vertical: "top",
           horizontal: "center",
@@ -38,7 +84,15 @@ export const NodeSettings: React.FC = ({ children }) => {
           horizontal: "center",
         }}
       >
-        {children}
+        {settings({
+          baseSettings: (
+            <>
+              <IconButton>
+                <Delete />
+              </IconButton>
+            </>
+          ),
+        })}
       </Popover>
     </>
   );
