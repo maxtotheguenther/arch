@@ -70,7 +70,8 @@ const Map: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Title</title>
+        <title>A title</title>
+        <meta name="description" content="A site with a seo description" />
       </Head>
       <Box
         sx={{
@@ -115,6 +116,7 @@ const Map: NextPage = () => {
                     {
                       ...params,
                       type: "customizable",
+                      animated: true,
                       arrowHeadType: ArrowHeadType.ArrowClosed,
                     },
                     els
@@ -135,7 +137,7 @@ const Map: NextPage = () => {
                       position: "fixed",
                       zIndex: 5,
                       right: 0,
-                      width: "20%",
+                      width: "15%",
                       height: "100%",
                     }}
                   >

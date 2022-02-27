@@ -25,6 +25,7 @@ export const CustomizableEdge = ({
     targetX,
     targetY,
     targetPosition,
+    borderRadius: 10,
   });
   const markerEnd = getMarkerEnd(arrowHeadType, markerEndId);
   return (
@@ -32,7 +33,12 @@ export const CustomizableEdge = ({
       <g>
         <path
           id={id}
-          style={{ strokeWidth: "1px", cursor: "pointer", ...style }}
+          style={{
+            strokeWidth: "2px",
+            cursor: "pointer",
+            pointerEvents: "visibleFill",
+            ...style,
+          }}
           className="react-flow__edge-path"
           d={edgePath}
           markerEnd={markerEnd}
