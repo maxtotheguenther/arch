@@ -9,7 +9,7 @@ import { ClientIcon } from "./ClientNode";
 import { GatewayIcon } from "./GatewayNode";
 
 export const SidebarAddAction: React.FC = () => {
-  const { addEvent } = useMap();
+  const { addElement } = useMap();
   return (
     <SidebarAction
       id="add"
@@ -19,7 +19,7 @@ export const SidebarAddAction: React.FC = () => {
           <IconButton
             onClick={() => {
               setAnchorEl(null);
-              addEvent({
+              addElement({
                 cursor: "crosshair",
                 element: { id: uuid(), type: "server" },
               });
@@ -30,7 +30,7 @@ export const SidebarAddAction: React.FC = () => {
           <IconButton
             onClick={() => {
               setAnchorEl(null);
-              addEvent({
+              addElement({
                 cursor: "crosshair",
                 element: { id: uuid(), type: "client" },
               });
@@ -41,7 +41,7 @@ export const SidebarAddAction: React.FC = () => {
           <IconButton
             onClick={() => {
               setAnchorEl(null);
-              addEvent({
+              addElement({
                 cursor: "crosshair",
                 element: { id: uuid(), type: "gateway" },
               });

@@ -1,3 +1,5 @@
+import { useKeyPress } from "@/hooks/useKeyPress";
+import { useMap } from "@/hooks/useMap";
 import { Delete } from "@mui/icons-material";
 import { Box, IconButton, Popover } from "@mui/material";
 import { useEffect } from "react";
@@ -7,17 +9,32 @@ import { preventOwnConnection } from "src/utils/map";
 
 export const Node: React.FC<
   NodeProps & { settings: (props: { baseSettings: ReactNode }) => ReactNode }
-> = ({ children, settings, xPos, yPos, ...props }) => {
+> = ({
+  children,
+  settings,
+  xPos,
+  yPos,
+  isConnectable,
+  isDragging,
+  id,
+  ...props
+}) => {
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
   const [pos, setPos] = useState<{ x?: number; y?: number } | null>(null);
   const [isSelected, setIsSelected] = useState(false);
+  const { removeElement } = useMap();
 
   useEffect(() => {
-    if (props.isDragging) {
+    if (isDragging) {
       setAnchorEl(null);
       setIsSelected(false);
     }
-  }, [props.isDragging]);
+  }, [isDragging]);
+
+  useKeyPress({ keys: ["Delete"], isRegistered: isSelected }, (e) => {
+    if (e.code === "Delete") removeElement(id);
+  });
+
   return (
     <>
       <Box>
@@ -42,28 +59,28 @@ export const Node: React.FC<
           type="source"
           position={Position.Top}
           id="a"
-          isConnectable={props.isConnectable}
+          isConnectable={isConnectable}
           isValidConnection={preventOwnConnection}
         />
         <Handle
           type="source"
           position={Position.Right}
           id="b"
-          isConnectable={props.isConnectable}
+          isConnectable={isConnectable}
           isValidConnection={preventOwnConnection}
         />
         <Handle
           type="source"
           position={Position.Left}
           id="c"
-          isConnectable={props.isConnectable}
+          isConnectable={isConnectable}
           isValidConnection={preventOwnConnection}
         />
         <Handle
           type="source"
           position={Position.Bottom}
           id="d"
-          isConnectable={props.isConnectable}
+          isConnectable={isConnectable}
           isValidConnection={preventOwnConnection}
         />
       </Box>
