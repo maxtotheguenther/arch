@@ -11,7 +11,7 @@ import { NodeProps } from "react-flow-renderer";
 import { Node } from "@/components/map/Node";
 import Image from "next/image";
 
-export const GatewayNode = memo((props: NodeProps) => {
+const GatewayNode = memo((props: NodeProps) => {
   return (
     <Node
       {...props}
@@ -32,7 +32,9 @@ export const GatewayNode = memo((props: NodeProps) => {
   );
 });
 
-export const GatewayIcon: React.FC = () => {
+GatewayNode.displayName = "GatewayNode";
+
+const GatewayIcon: React.FC = () => {
   return (
     <Box
       sx={{
@@ -45,7 +47,9 @@ export const GatewayIcon: React.FC = () => {
         },
       }}
     >
-      <Image src="/gateway.png" layout="fill" />
+      <Image alt="gateway" src="/gateway.png" layout="fill" />
     </Box>
   );
 };
+
+export { GatewayIcon, GatewayNode };

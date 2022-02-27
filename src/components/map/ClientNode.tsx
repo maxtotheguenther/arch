@@ -11,7 +11,7 @@ import { NodeProps } from "react-flow-renderer";
 import { Node } from "@/components/map/Node";
 import Image from "next/image";
 
-export const ClientNode = memo((props: NodeProps) => {
+const ClientNode = memo((props: NodeProps) => {
   return (
     <Node
       {...props}
@@ -32,7 +32,9 @@ export const ClientNode = memo((props: NodeProps) => {
   );
 });
 
-export const ClientIcon: React.FC = () => {
+ClientNode.displayName = "ClientNode";
+
+const ClientIcon: React.FC = () => {
   return (
     <Box
       sx={{
@@ -45,7 +47,9 @@ export const ClientIcon: React.FC = () => {
         },
       }}
     >
-      <Image src="/laptop.png" layout="fill" />
+      <Image alt="client" src="/laptop.png" layout="fill" />
     </Box>
   );
 };
+
+export { ClientNode, ClientIcon };

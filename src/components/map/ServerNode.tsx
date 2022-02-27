@@ -1,21 +1,11 @@
-import {
-  Box,
-  Card,
-  CardContent,
-  IconButton,
-  Paper,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, IconButton, Paper } from "@mui/material";
 import { memo } from "react";
 import { NodeProps } from "react-flow-renderer";
 import { Node } from "@/components/map/Node";
 import Image from "next/image";
-import { useMap } from "@/hooks/useMap";
 import { Delete } from "@mui/icons-material";
 
-export const ServerNode = memo((props: NodeProps) => {
+const ServerNode = memo((props: NodeProps) => {
   return (
     <Node
       {...props}
@@ -34,7 +24,9 @@ export const ServerNode = memo((props: NodeProps) => {
   );
 });
 
-export const ServerIcon: React.FC = () => {
+ServerNode.displayName = "ServerNode";
+
+const ServerIcon: React.FC = () => {
   return (
     <Box
       sx={{
@@ -47,7 +39,9 @@ export const ServerIcon: React.FC = () => {
         },
       }}
     >
-      <Image src="/server.png" layout="fill" />
+      <Image alt="server" src="/server.png" layout="fill" />
     </Box>
   );
 };
+
+export { ServerNode, ServerIcon };
