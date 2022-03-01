@@ -1,4 +1,4 @@
-import { Box, IconButton, Paper } from "@mui/material";
+import { Box, IconButton, Paper, Typography } from "@mui/material";
 import { memo } from "react";
 import { NodeProps } from "react-flow-renderer";
 import { Node } from "@/components/map/Node";
@@ -20,6 +20,7 @@ const ServerNode = memo((props: NodeProps) => {
       )}
     >
       <ServerIcon />
+      <Typography variant="caption">Beus-API</Typography>
     </Node>
   );
 });

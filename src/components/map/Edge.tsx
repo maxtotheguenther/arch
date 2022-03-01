@@ -36,7 +36,7 @@ export const CustomizableEdge = ({
           style={{
             strokeWidth: "2px",
             cursor: "pointer",
-            pointerEvents: "visibleFill",
+            pointerEvents: "stroke",
             ...style,
           }}
           className="react-flow__edge-path"

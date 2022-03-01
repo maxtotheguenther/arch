@@ -73,86 +73,86 @@ const Map: NextPage = () => {
         <title>A title</title>
         <meta name="description" content="A site with a seo description" />
       </Head>
-      <Box
-        sx={{
-          width: "100%",
-          height: "100%",
-          cursor: addEvent?.cursor || "default",
-        }}
-        ref={wrapper}
-      >
-        <NoSsr>
-          <MapCtx.Provider
-            value={{
-              addElement: setAddEvent,
-              removeElement,
-              wrapper,
-              instance,
-            }}
-          >
-            <ReactFlow
-              {...(addEvent && {
-                onClick: (e) => add(e.pageX, e.pageY),
-              })}
-              nodeTypes={{
-                server: ServerNode,
-                client: ClientNode,
-                gateway: GatewayNode,
+      <Box sx={{ display: "flex", height: "100%", width: "100%" }}>
+        <Box
+          sx={{
+            width: "100%",
+            height: "100%",
+            cursor: addEvent?.cursor || "default",
+          }}
+          ref={wrapper}
+        >
+          <NoSsr>
+            <MapCtx.Provider
+              value={{
+                addElement: setAddEvent,
+                removeElement,
+                wrapper,
+                instance,
               }}
-              edgeTypes={{
-                customizable: CustomizableEdge,
-              }}
-              snapToGrid={true}
-              snapGrid={[5, 5]}
-              connectionMode={ConnectionMode.Loose}
-              elements={elements}
-              onLoad={(flow) => {
-                flow.fitView();
-                setInstance(flow);
-              }}
-              onConnect={(params) => {
-                setElements((els) =>
-                  addEdge(
-                    {
-                      ...params,
-                      type: "customizable",
-                      animated: true,
-                      arrowHeadType: ArrowHeadType.ArrowClosed,
-                    },
-                    els
-                  )
-                );
-              }}
-              onEdgeUpdate={(oldEdge, newConnection) =>
-                setElements((els) => updateEdge(oldEdge, newConnection, els))
-              }
             >
-              {instance !== null ? (
-                <>
-                  <Sidebar>
-                    <SidebarAddAction />
-                  </Sidebar>
-                  <Box
-                    sx={{
-                      position: "fixed",
-                      zIndex: 5,
-                      right: 0,
-                      width: "15%",
-                      height: "100%",
-                    }}
-                  >
-                    <Paper sx={{ p: 2, height: "100%" }}>
-                      <Typography variant="h4">Hello</Typography>
-                    </Paper>
-                  </Box>
-                  <Background variant={BackgroundVariant.Dots} />
-                  <Controls />
-                  <MiniMap />
-                </>
-              ) : null}
-            </ReactFlow>
-          </MapCtx.Provider>
-        </NoSsr>
+              <ReactFlow
+                {...(addEvent && {
+                  onClick: (e) => add(e.pageX, e.pageY),
+                })}
+                nodeTypes={{
+                  server: ServerNode,
+                  client: ClientNode,
+                  gateway: GatewayNode,
+                }}
+                edgeTypes={{
+                  customizable: CustomizableEdge,
+                }}
+                snapToGrid={true}
+                snapGrid={[5, 5]}
+                connectionMode={ConnectionMode.Loose}
+                elements={elements}
+                onLoad={(flow) => {
+                  flow.fitView();
+                  setInstance(flow);
+                }}
+                onConnect={(params) => {
+                  setElements((els) =>
+                    addEdge(
+                      {
+                        ...params,
+                        type: "customizable",
+                        arrowHeadType: ArrowHeadType.ArrowClosed,
+                      },
+                      els
+                    )
+                  );
+                }}
+                onEdgeUpdate={(oldEdge, newConnection) =>
+                  setElements((els) => updateEdge(oldEdge, newConnection, els))
+                }
+              >
+                {instance !== null ? (
+                  <>
+                    <Sidebar>
+                      <SidebarAddAction />
+                    </Sidebar>
+                    <Background variant={BackgroundVariant.Dots} />
+                    <Controls />
+                    <MiniMap />
+                  </>
+                ) : null}
+              </ReactFlow>
+            </MapCtx.Provider>
+          </NoSsr>
+        </Box>
+        <Box
+          sx={{
+            zIndex: 5,
+            right: 0,
+            width: "15%",
+            height: "100%",
+          }}
+        >
+          <Paper sx={{ p: 2, height: "100%" }}>
+            <Typography variant="h4">Hello</Typography>
+          </Paper>
+        </Box>
       </Box>
     </>
   );
