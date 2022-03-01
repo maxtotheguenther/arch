@@ -1,5 +1,5 @@
 import { Box, NoSsr, Paper, Typography } from "@mui/material";
-import { createContext, RefObject, useRef, useState } from "react";
+import { createContext, ReactNode, RefObject, useRef, useState } from "react";
 import ReactFlow, {
   addEdge,
   ArrowHeadType,
@@ -32,6 +32,7 @@ type AddElementEvent = {
 export type MapContext = {
   wrapper: RefObject<HTMLDivElement>;
   instance: OnLoadParams<any> | null;
+  showNodeSettings: (settings: ReactNode) => void;
   addElement: (props: AddElementEvent) => void;
   removeElement: (id: string) => void;
 };
@@ -43,6 +44,7 @@ const Map: NextPage = () => {
   const [addEvent, setAddEvent] = useState<AddElementEvent | null>(null);
   const [instance, setInstance] = useState<OnLoadParams | null>(null);
   const [elements, setElements] = useState<Elements>([]);
+  const [nodeSettings, setNodeSettings] = useState<ReactNode | null>(null);
 
   function add(x: number, y: number) {
     if (addEvent) {
@@ -67,6 +69,11 @@ const Map: NextPage = () => {
     setElements(updatedElements);
   }
 
+  function showNodeSettings(settings: ReactNode) {
+    console.log("SETTINGS", settings);
+    setNodeSettings(settings);
+  }
+
   return (
     <>
       <Head>
@@ -87,6 +94,7 @@ const Map: NextPage = () => {
               value={{
                 addElement: setAddEvent,
                 removeElement,
+                showNodeSettings,
                 wrapper,
                 instance,
               }}
@@ -149,9 +157,7 @@ const Map: NextPage = () => {
             height: "100%",
           }}
         >
-          <Paper sx={{ p: 2, height: "100%" }}>
-            <Typography variant="h4">Hello</Typography>
-          </Paper>
+          <Paper sx={{ p: 2, height: "100%" }}>{nodeSettings}</Paper>
         </Box>
       </Box>
     </>

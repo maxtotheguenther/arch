@@ -9,15 +9,7 @@ const ServerNode = memo((props: NodeProps) => {
   return (
     <Node
       {...props}
-      settings={(base) => (
-        <Paper sx={{ p: 1 }}>
-          <Box sx={{ display: "flex" }}>
-            <IconButton>
-              <Delete />
-            </IconButton>
-          </Box>
-        </Paper>
-      )}
+      settings={() => <Typography>Hello from Server Node</Typography>}
     >
       <ServerIcon />
       <Typography variant="caption">Beus-API</Typography>

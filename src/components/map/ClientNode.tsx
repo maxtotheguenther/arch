@@ -15,7 +15,7 @@ const ClientNode = memo((props: NodeProps) => {
   return (
     <Node
       {...props}
-      settings={(base) => (
+      settings={() => (
         <Card>
           <CardContent>
             <Typography variant="h5">Service</Typography>

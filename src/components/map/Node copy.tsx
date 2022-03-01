@@ -1,6 +1,7 @@
 import { useKeyPress } from "@/hooks/useKeyPress";
 import { useMap } from "@/hooks/useMap";
-import { Box, ClickAwayListener } from "@mui/material";
+import { Delete } from "@mui/icons-material";
+import { Box, ClickAwayListener, IconButton, Popover } from "@mui/material";
 import { useEffect } from "react";
 import { ReactNode, useState } from "react";
 import { Handle, NodeProps, Position } from "react-flow-renderer";
@@ -8,14 +9,24 @@ import { preventOwnConnection } from "src/utils/map";
 
 export const Node: React.FC<
   NodeProps & { settings: (props: {}) => ReactNode }
-> = ({ children, settings, xPos, yPos, isConnectable, isDragging, id }) => {
+> = ({
+  children,
+  settings,
+  xPos,
+  yPos,
+  isConnectable,
+  isDragging,
+  id,
+  ...props
+}) => {
+  const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
   const [pos, setPos] = useState<{ x?: number; y?: number } | null>(null);
   const [isSelected, setIsSelected] = useState(false);
   const { removeElement, showNodeSettings } = useMap();
 
   useEffect(() => {
     if (isDragging) {
-      console.log("DRAGGING REMOVE");
+      setAnchorEl(null);
       setIsSelected(false);
       showNodeSettings(null);
     }
@@ -28,7 +39,7 @@ export const Node: React.FC<
   return (
     <ClickAwayListener
       onClickAway={() => {
-        console.log("ON CLICK AWAY REMOVE");
+        setAnchorEl(null);
         setIsSelected(false);
         showNodeSettings(null);
       }}
@@ -40,6 +51,7 @@ export const Node: React.FC<
           }}
           onMouseUp={(e) => {
             if (xPos !== pos?.x || yPos !== pos?.y) return;
+            setAnchorEl(e.currentTarget);
             setIsSelected(true);
             showNodeSettings(settings);
           }}
@@ -79,6 +91,26 @@ export const Node: React.FC<
           isValidConnection={preventOwnConnection}
         />
       </Box>
+      {/**
+       * <Popover
+        sx={{ top: -20 }}
+        open={Boolean(anchorEl)}
+        anchorEl={anchorEl}
+        onClose={() => {
+          setAnchorEl(null);
+          setIsSelected(false);
+          showNodeSettings(null);
+        }}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+        transformOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+      ></Popover>
+       */}
     </ClickAwayListener>
   );
 };
